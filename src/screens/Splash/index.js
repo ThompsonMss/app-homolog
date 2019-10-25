@@ -1,7 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Container, Title} from './styles';
 
 import ResetActions from '../../utils/ResetActions';
+
+import Icone from 'react-native-vector-icons/Fontisto';
 
 export default function Splash(props) {
   function proxScreen() {
@@ -14,6 +16,7 @@ export default function Splash(props) {
 
   return (
     <Container>
+      <Icone name="doctor" size={60} color="#000" />
       <Title>HOMOLOG</Title>
     </Container>
   );
