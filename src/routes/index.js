@@ -19,6 +19,7 @@ export default createAppContainer(
     Login: {
       screen: Login,
       navigationOptions: {
+        header: null,
         title: 'Login',
       },
     },
