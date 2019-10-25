@@ -1,12 +1,10 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 
-// import { Container } from './styles';
-
-export default function Login(props) {
+export default function List(props) {
   return (
     <View>
-      <Text>Login</Text>
+      <Text>List</Text>
     </View>
   );
 }

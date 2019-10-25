@@ -1,16 +1,13 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
+import React from 'react';
+import Routes from './src/routes';
 
-import Login from './src/screens/Login';
-import Splash from './src/screens/Splash';
+import {Provider} from 'react-redux';
+import store from './src/store';
 
-export default createAppContainer(
-  createStackNavigator({
-    Login: {
-      screen: Login,
-    },
-    Splash: {
-      screen: Splash,
-    },
-  }),
-);
+export default function App() {
+  return (
+    <Provider store={store}>
+      <Routes />
+    </Provider>
+  );
+}
