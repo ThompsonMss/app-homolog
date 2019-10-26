@@ -48,6 +48,45 @@ export const TextSheetContent = styled.Text`
   font-size: 20;
 `;
 
+export const WrapperInput = styled.View`
+  border: none;
+  width: ${props => props.tamanho - 20};
+  background-color: #fff;
+  margin-bottom: 10;
+  border-radius: 5;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 5;
+  padding-right: 5;
+`;
+
+export const TextIcon = styled.Text`
+  text-align: center;
+`;
+
+export const Input = styled.TextInput`
+  border: none;
+  flex: 1;
+  background-color: transparent;
+  border-radius: 5;
+  font-size: 20;
+`;
+
+export const Button = styled.TouchableOpacity`
+  border: none;
+  height: 50;
+  width: ${props => props.tamanho - 20};
+  background-color: #999;
+  border-radius: 5;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const TextButton = styled.Text`
+  font-size: 20;
+  color: #fff;
+`;
+
 export const BottomSheetHeader = styled.View`
   background: rgba(0, 0, 0, 0.8);
   height: 60;
@@ -74,4 +113,5 @@ export const Indicator = styled.View`
 export const TextSheetHeader = styled.Text`
   color: #fff;
   font-size: 20;
+  margin-bottom: 10;
 `;
