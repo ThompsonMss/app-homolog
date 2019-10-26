@@ -1,5 +1,18 @@
 import React from 'react';
-import {Container, WrapperFilter, TextFilter, FlatList} from './styles';
+import {
+  Container,
+  WrapperFilter,
+  TextFilter,
+  FlatList,
+  BottomSheetContent,
+  TextSheetContent,
+  BottomSheetHeader,
+  SheetIndicator,
+  Indicator,
+  TextSheetHeader,
+} from './styles';
+
+import BottomSheet from 'reanimated-bottom-sheet';
 
 import Header from '../../components/Header';
 import Box from '../../components/Box';
@@ -50,6 +63,23 @@ const listAtestados = {
 };
 
 export default function List(props) {
+  const renderHeader = () => (
+    /* render */
+    <BottomSheetHeader>
+      <SheetIndicator>
+        <Indicator />
+      </SheetIndicator>
+      <TextSheetHeader>Filtro por Data</TextSheetHeader>
+    </BottomSheetHeader>
+  );
+
+  const renderContent = () => (
+    /* render */
+    <BottomSheetContent>
+      <TextSheetContent>Conteudo</TextSheetContent>
+    </BottomSheetContent>
+  );
+
   return (
     <>
       <Header
@@ -72,6 +102,11 @@ export default function List(props) {
           keyExtractor={item => item.id}
         />
       </Container>
+      <BottomSheet
+        snapPoints={[300, 300, 20]}
+        renderContent={renderContent}
+        renderHeader={renderHeader}
+      />
     </>
   );
 }
