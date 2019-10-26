@@ -37,7 +37,7 @@ export const Title = styled.Text`
 
 export const WrapperInput = styled.View`
   border: none;
-  width: 300;
+  width: ${props => props.tamanho - 50};
   background-color: #fff;
   margin-top: 10;
   border-radius: 5;
@@ -62,7 +62,7 @@ export const Input = styled.TextInput`
 export const Button = styled.TouchableOpacity`
   border: none;
   height: 50;
-  width: 300;
+  width: ${props => props.tamanho - 50};
   background-color: #000;
   margin-top: 10;
   border-radius: 5;
