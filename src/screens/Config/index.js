@@ -60,19 +60,24 @@ function Config(props) {
         <Container>
           <WrapperTextInput>
             <Text>Nome</Text>
-            <Input />
+            <Input value="Thompson Matheus Soares da Silva" editable={false} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>CPF</Text>
-            <Input keyboardType="numeric" maxLength={11} />
+            <Input
+              value="1111111111"
+              editable={false}
+              keyboardType="numeric"
+              maxLength={11}
+            />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Email</Text>
-            <Input keyboardType="email-address" />
+            <Input value="teste@teste.com" keyboardType="email-address" />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Senha</Text>
-            <Input secureTextEntry={true} />
+            <Input value="1234556" secureTextEntry={true} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>UF</Text>
@@ -86,27 +91,27 @@ function Config(props) {
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Cidade</Text>
-            <Input />
+            <Input value="Ceidrogas" />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Rua</Text>
-            <Input />
+            <Input value="Conjunto Z" />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Número</Text>
-            <Input />
+            <Input value="105" />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>CEP</Text>
-            <Input keyboardType="numeric" maxLength={8} />
+            <Input value="72210210" keyboardType="numeric" maxLength={8} />
           </WrapperTextInput>
           <WrapperButton>
-            <Button color="#000">
+            <Button activeOpacity={0.7} color="#000">
               <TextButton>Salvar</TextButton>
             </Button>
           </WrapperButton>
           <WrapperButton>
-            <Button color="red">
+            <Button activeOpacity={0.7} color="red">
               <TextButton>Excluir Conta</TextButton>
             </Button>
           </WrapperButton>
