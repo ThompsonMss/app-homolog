@@ -1,22 +1,20 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
-import { 
-  ScrollView, 
-  Container, 
-  WrapperTextInput, 
-  Text, 
-  Input, 
+import {Dimensions, Alert} from 'react-native';
+import {
+  ScrollView,
+  Container,
+  WrapperTextInput,
+  Text,
+  Input,
   Picker,
   Button,
-  TextButton
+  TextButton,
 } from './styles';
 
 import api from '../../services/api';
 
 export default function Register(props) {
-
   const [language, setLanguage] = React.useState('Distrito Federal');
-
 
   //Inputs
   const [nome, setNome] = React.useState('');
@@ -30,18 +28,39 @@ export default function Register(props) {
   const [cep, setCep] = React.useState('');
 
   const estados = [
-    'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará',
-    'Distrito Federal', 'Espírito Santo', 'Goiás', 'Maranhão', 'Mato Grosso',
-    'Mato Grosso do Sul', 'Minas Gerais', 'Pará', 'Paraíba', 'Paraná', 'Pernanbuco',
-    'Piauí', 'Rio de Janeiro', 'Rio Grande do Norte', 'Rio Grande do Sul', 'Rondônia',
-    'Roraima', 'Santa Catarina', 'São Paulo', 'Sergipe', 'Tocatins',
-
+    'Acre',
+    'Alagoas',
+    'Amapá',
+    'Amazonas',
+    'Bahia',
+    'Ceará',
+    'Distrito Federal',
+    'Espírito Santo',
+    'Goiás',
+    'Maranhão',
+    'Mato Grosso',
+    'Mato Grosso do Sul',
+    'Minas Gerais',
+    'Pará',
+    'Paraíba',
+    'Paraná',
+    'Pernanbuco',
+    'Piauí',
+    'Rio de Janeiro',
+    'Rio Grande do Norte',
+    'Rio Grande do Sul',
+    'Rondônia',
+    'Roraima',
+    'Santa Catarina',
+    'São Paulo',
+    'Sergipe',
+    'Tocatins',
   ];
 
-  let { height, width } = Dimensions.get('window');
+  let {height, width} = Dimensions.get('window');
 
   const salvarPaciente = async () => {
-    if(
+    if (
       nome == '' ||
       cpf == '' ||
       email == '' ||
@@ -51,33 +70,28 @@ export default function Register(props) {
       rua == '' ||
       numero == '' ||
       cep == ''
-    ){
+    ) {
       alert('Preencha todos os campos.');
-    }else {
+    } else {
       try {
-        /*const response = await api.post('/pacientes/create', {
+        const response = await api.post('/pacientes/create', {
           nome,
           cpf,
           telefone,
           endereco: `Estado: ${language}, Cidade: ${cidade}, Rua: ${rua}, Número: ${numero}, CEP: ${cep}`,
           email,
-          senha
-        });*/
-
-        const base = 'k2djsb0a.srv-45-34-12-250.webserverhost.top/public';
-        const response = await fetch(`${base}/pacientes/create`, {
-          method: 'POST',
-          body: JSON.stringify({
-            nome,
-            cpf,
-            telefone,
-            endereco: `Estado: ${language}, Cidade: ${cidade}, Rua: ${rua}, Número: ${numero}, CEP: ${cep}`,
-            email,
-            senha
-          })
+          senha,
         });
 
-        alert(response.data);
+        if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
+          Alert.alert('Falha', 'Email ou CPF já cadastrado', [
+            {text: 'OK', onPress: () => null},
+          ]);
+        } else {
+          Alert.alert('Sucesso', 'Você foi cadastrado.', [
+            {text: 'OK', onPress: () => props.navigation.goBack()},
+          ]);
+        }
       } catch (error) {
         alert(error);
       }
@@ -87,36 +101,52 @@ export default function Register(props) {
   return (
     <ScrollView>
       <Container>
-       <WrapperTextInput>
+        <WrapperTextInput>
           <Text>Nome</Text>
           <Input value={nome} onChangeText={e => setNome(e)} />
-       </WrapperTextInput>
+        </WrapperTextInput>
         <WrapperTextInput>
           <Text>CPF</Text>
-          <Input value={cpf} onChangeText={e => setCpf(e)} keyboardType="numeric" maxLength={11} />
+          <Input
+            value={cpf}
+            onChangeText={e => setCpf(e)}
+            keyboardType="numeric"
+            maxLength={11}
+          />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Email</Text>
-          <Input value={email} onChangeText={e => setEmail(e)} keyboardType="email-address" />
+          <Input
+            value={email}
+            onChangeText={e => setEmail(e)}
+            keyboardType="email-address"
+          />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Senha</Text>
-          <Input value={senha} onChangeText={e => setSenha(e)} secureTextEntry={true} />
+          <Input
+            value={senha}
+            onChangeText={e => setSenha(e)}
+            secureTextEntry={true}
+          />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Telefone</Text>
-          <Input value={telefone} onChangeText={e => setTelefone(e)} keyboardType="numeric" maxLength={11} />
+          <Input
+            value={telefone}
+            onChangeText={e => setTelefone(e)}
+            keyboardType="numeric"
+            maxLength={11}
+          />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>UF</Text>
           <Picker
             selectedValue={language}
-            onValueChange={(itemValue, itemIndex) =>
-              setLanguage(itemValue)
-            }>
+            onValueChange={(itemValue, itemIndex) => setLanguage(itemValue)}>
             {estados.map(estado => (
-              <Picker.Item key={estado} label={estado} value={estado} />)
-            )}
+              <Picker.Item key={estado} label={estado} value={estado} />
+            ))}
           </Picker>
         </WrapperTextInput>
         <WrapperTextInput>
@@ -133,7 +163,12 @@ export default function Register(props) {
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>CEP</Text>
-          <Input value={cep} onChangeText={e => setCep(e)} keyboardType="numeric" maxLength={8} />
+          <Input
+            value={cep}
+            onChangeText={e => setCep(e)}
+            keyboardType="numeric"
+            maxLength={8}
+          />
         </WrapperTextInput>
         <Button onPress={salvarPaciente} tamanho={width} activeOpacity={0.7}>
           <TextButton>Salvar</TextButton>
