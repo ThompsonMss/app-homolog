@@ -11,6 +11,8 @@ import {
   TextButton
 } from './styles';
 
+import api from '../../services/api';
+
 export default function Register(props) {
 
   const [language, setLanguage] = React.useState('Distrito Federal');
@@ -37,6 +39,50 @@ export default function Register(props) {
   ];
 
   let { height, width } = Dimensions.get('window');
+
+  const salvarPaciente = async () => {
+    if(
+      nome == '' ||
+      cpf == '' ||
+      email == '' ||
+      senha == '' ||
+      telefone == '' ||
+      cidade == '' ||
+      rua == '' ||
+      numero == '' ||
+      cep == ''
+    ){
+      alert('Preencha todos os campos.');
+    }else {
+      try {
+        /*const response = await api.post('/pacientes/create', {
+          nome,
+          cpf,
+          telefone,
+          endereco: `Estado: ${language}, Cidade: ${cidade}, Rua: ${rua}, Número: ${numero}, CEP: ${cep}`,
+          email,
+          senha
+        });*/
+
+        const base = 'k2djsb0a.srv-45-34-12-250.webserverhost.top/public';
+        const response = await fetch(`${base}/pacientes/create`, {
+          method: 'POST',
+          body: JSON.stringify({
+            nome,
+            cpf,
+            telefone,
+            endereco: `Estado: ${language}, Cidade: ${cidade}, Rua: ${rua}, Número: ${numero}, CEP: ${cep}`,
+            email,
+            senha
+          })
+        });
+
+        alert(response.data);
+      } catch (error) {
+        alert(error);
+      }
+    }
+  };
 
   return (
     <ScrollView>
@@ -89,7 +135,7 @@ export default function Register(props) {
           <Text>CEP</Text>
           <Input value={cep} onChangeText={e => setCep(e)} keyboardType="numeric" maxLength={8} />
         </WrapperTextInput>
-        <Button onPress={() => props.navigation.navigate('Home')} tamanho={width} activeOpacity={0.7}>
+        <Button onPress={salvarPaciente} tamanho={width} activeOpacity={0.7}>
           <TextButton>Salvar</TextButton>
         </Button>
       </Container>
