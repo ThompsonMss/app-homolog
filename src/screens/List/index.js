@@ -5,7 +5,6 @@ import {
   FlatList,
   BottomSheetContent,
   TextSheetContent,
-  Input,
   TextIcon,
   WrapperInput,
   Button,

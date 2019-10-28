@@ -13,11 +13,20 @@ import {
 } from './styles';
 
 import Icon from 'react-native-vector-icons/Feather';
-
 import Header from '../../components/Header';
 
 function Config(props) {
   const [language, setLanguage] = React.useState('Distrito Federal');
+  //Inputs
+  const [nome, setNome] = React.useState('');
+  const [cpf, setCpf] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
+  const [telefone, setTelefone] = React.useState('');
+  const [cidade, setCidade] = React.useState('');
+  const [rua, setRua] = React.useState('');
+  const [numero, setNumero] = React.useState('');
+  const [cep, setCep] = React.useState('');
 
   const estados = [
     'Acre',
@@ -49,6 +58,22 @@ function Config(props) {
     'Tocatins',
   ];
 
+  const salvar = () => {
+    if (
+      nome == '' ||
+      cpf == '' ||
+      email == '' ||
+      senha == '' ||
+      telefone == '' ||
+      cidade == '' ||
+      rua == '' ||
+      numero == '' ||
+      cep == ''
+    ) {
+      alert('Preencha todos os campos.');
+    }
+  };
+
   return (
     <>
       <Header
@@ -60,12 +85,12 @@ function Config(props) {
         <Container>
           <WrapperTextInput>
             <Text>Nome</Text>
-            <Input value="Thompson Matheus Soares da Silva" editable={false} />
+            <Input value={nome} editable={false} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>CPF</Text>
             <Input
-              value="1111111111"
+              value={cpf}
               editable={false}
               keyboardType="numeric"
               maxLength={11}
@@ -73,11 +98,27 @@ function Config(props) {
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Email</Text>
-            <Input value="teste@teste.com" keyboardType="email-address" />
+            <Input
+              value={email}
+              onChangeText={e => setEmail(e)}
+              keyboardType="email-address"
+            />
+          </WrapperTextInput>
+          <WrapperTextInput>
+            <Text>Telefone</Text>
+            <Input
+              value={telefone}
+              onChangeText={e => setTelefone(e)}
+              keyboardType="email-address"
+            />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Senha</Text>
-            <Input value="1234556" secureTextEntry={true} />
+            <Input
+              value={senha}
+              onChangeText={e => setSenha(e)}
+              secureTextEntry={true}
+            />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>UF</Text>
@@ -91,22 +132,27 @@ function Config(props) {
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Cidade</Text>
-            <Input value="Ceidrogas" />
+            <Input value={cidade} onChangeText={e => setCidade(e)} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Rua</Text>
-            <Input value="Conjunto Z" />
+            <Input value={rua} onChangeText={e => setRua(e)} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>Número</Text>
-            <Input value="105" />
+            <Input value={numero} onChangeText={e => setNumero(e)} />
           </WrapperTextInput>
           <WrapperTextInput>
             <Text>CEP</Text>
-            <Input value="72210210" keyboardType="numeric" maxLength={8} />
+            <Input
+              value={cep}
+              onChangeText={e => setCep(e)}
+              keyboardType="numeric"
+              maxLength={8}
+            />
           </WrapperTextInput>
           <WrapperButton>
-            <Button activeOpacity={0.7} color="#000">
+            <Button onPress={salvar} activeOpacity={0.7} color="#000">
               <TextButton>Salvar</TextButton>
             </Button>
           </WrapperButton>
@@ -119,19 +165,6 @@ function Config(props) {
       </ScrollView>
     </>
   );
-}
-
-Config.navigationOptions = ({navigation}) => ({
-  headerRight: (
-    <ButtonSave activeOpacity={0.7} onPress={() => save(navigation)}>
-      <Icon name="save" size={30} color="#000" />
-    </ButtonSave>
-  ),
-});
-
-function save(navigation) {
-  alert('Salvando... Teste');
-  setTimeout(() => navigation.navigate('Login'), 1000);
 }
 
 export default Config;
