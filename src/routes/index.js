@@ -6,6 +6,7 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 import Home from '../screens/Home';
 import Detail from '../screens/Detail';
+import Lembrete from '../screens/Lembrete';
 
 export default createAppContainer(
   createStackNavigator({
@@ -39,6 +40,12 @@ export default createAppContainer(
       screen: Detail,
       navigationOptions: {
         title: 'Detalhe do Atestado',
+      },
+    },
+    Lembrete: {
+      screen: Lembrete,
+      navigationOptions: {
+        title: 'Lembrete',
       },
     },
   }),

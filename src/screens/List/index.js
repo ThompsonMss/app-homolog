@@ -129,6 +129,7 @@ export default function List(props) {
           data={listAtestados.atestados}
           renderItem={({item}) => (
             <Box
+              id={item.id}
               data={item.data}
               cid={item.cid}
               crm={item.crm}

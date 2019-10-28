@@ -55,7 +55,7 @@ export default function Detail(props) {
           CRM: {atestado.crm}
         </TextContent>
       </Wrapper>
-      <ButtonLembrete onPress={() => props.navigation.navigate('Register')} activeOpacity={0.2} >
+      <ButtonLembrete onPress={() => props.navigation.navigate('Lembrete', {idAtestado: atestado.id })} activeOpacity={0.2} >
           <TextLembrete>LEMBRETES</TextLembrete>
       </ButtonLembrete>
     </Container>

@@ -40,6 +40,7 @@ export const TextAtestado = styled.Text`
 
 export const TextContent = styled.Text`
     font-size: 20;
+    font-style: italic;
 `;
 
 export const TextDeclaracao = styled.Text`
