@@ -142,7 +142,8 @@ export default function List(props) {
         />
       </Container>
       <BottomSheet
-        snapPoints={[300, 300, 20]}
+        snapPoints={[300, 60, 20]}
+        initialSnap={[2]}
         renderContent={renderContent}
         renderHeader={renderHeader}
       />
