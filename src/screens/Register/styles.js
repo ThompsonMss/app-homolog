@@ -11,15 +11,6 @@ export const Container = styled.View`
   margin-top: 20;
 `;
 
-export const ButtonSave = styled.TouchableOpacity`
-  height: 40;
-  width: 40;
-  background: transparent;
-  margin-right: 10;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const WrapperTextInput = styled.View`
   width: 90%;
   margin-bottom: 10;
@@ -48,4 +39,22 @@ export const Picker = styled.Picker`
   padding-left: 10;
   border-radius: 5;
 `;
+
+export const Button = styled.TouchableOpacity`
+  border: none;
+  height: 50;
+  width: ${props => props.tamanho - 40};
+  background-color: #000;
+  margin-top: 10;
+  margin-bottom: 20;
+  border-radius: 5;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const TextButton = styled.Text`
+  font-size: 20;
+  color: #fff;
+`;
+
 

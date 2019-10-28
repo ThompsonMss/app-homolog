@@ -1,11 +1,31 @@
 import React from 'react';
-import { ScrollView, Container, ButtonSave, WrapperTextInput, Text, Input, Picker} from './styles';
+import {Dimensions} from 'react-native';
+import { 
+  ScrollView, 
+  Container, 
+  WrapperTextInput, 
+  Text, 
+  Input, 
+  Picker,
+  Button,
+  TextButton
+} from './styles';
 
-import Icon from 'react-native-vector-icons/Feather';
-
-function Register(props) {
+export default function Register(props) {
 
   const [language, setLanguage] = React.useState('Distrito Federal');
+
+
+  //Inputs
+  const [nome, setNome] = React.useState('');
+  const [cpf, setCpf] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
+  const [telefone, setTelefone] = React.useState('');
+  const [cidade, setCidade] = React.useState('');
+  const [rua, setRua] = React.useState('');
+  const [numero, setNumero] = React.useState('');
+  const [cep, setCep] = React.useState('');
 
   const estados = [
     'Acre', 'Alagoas', 'Amapá', 'Amazonas', 'Bahia', 'Ceará',
@@ -16,24 +36,30 @@ function Register(props) {
 
   ];
 
+  let { height, width } = Dimensions.get('window');
+
   return (
     <ScrollView>
       <Container>
        <WrapperTextInput>
           <Text>Nome</Text>
-          <Input />
+          <Input value={nome} onChangeText={e => setNome(e)} />
        </WrapperTextInput>
         <WrapperTextInput>
           <Text>CPF</Text>
-          <Input keyboardType="numeric" maxLength={11} />
+          <Input value={cpf} onChangeText={e => setCpf(e)} keyboardType="numeric" maxLength={11} />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Email</Text>
-          <Input keyboardType="email-address" />
+          <Input value={email} onChangeText={e => setEmail(e)} keyboardType="email-address" />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Senha</Text>
-          <Input secureTextEntry={true} />
+          <Input value={senha} onChangeText={e => setSenha(e)} secureTextEntry={true} />
+        </WrapperTextInput>
+        <WrapperTextInput>
+          <Text>Telefone</Text>
+          <Input value={telefone} onChangeText={e => setTelefone(e)} keyboardType="numeric" maxLength={11} />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>UF</Text>
@@ -49,36 +75,24 @@ function Register(props) {
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Cidade</Text>
-          <Input />
+          <Input value={cidade} onChangeText={e => setCidade(e)} />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Rua</Text>
-          <Input />
+          <Input value={rua} onChangeText={e => setRua(e)} />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>Número</Text>
-          <Input />
+          <Input value={numero} onChangeText={e => setNumero(e)} />
         </WrapperTextInput>
         <WrapperTextInput>
           <Text>CEP</Text>
-          <Input keyboardType="numeric" maxLength={8} />
+          <Input value={cep} onChangeText={e => setCep(e)} keyboardType="numeric" maxLength={8} />
         </WrapperTextInput>
+        <Button onPress={() => props.navigation.navigate('Home')} tamanho={width} activeOpacity={0.7}>
+          <TextButton>Salvar</TextButton>
+        </Button>
       </Container>
     </ScrollView>
   );
 }
-
-Register.navigationOptions = ({navigation}) => ({
-  headerRight: (
-    <ButtonSave activeOpacity={0.7} onPress={() => save(navigation)}>
-      <Icon name="save" size={30} color="#000" />
-    </ButtonSave>
-  ),
-});
-
-function save(navigation) {
-  alert('Salvando... Teste');
-  setTimeout(() => navigation.navigate('Login'), 1000);
-};
-
-export default Register;
