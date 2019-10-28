@@ -30,41 +30,17 @@ const listAtestados = {
       id: 1,
       data: '26/10/2019 11:55',
       cid: 'S34',
-      causa: 'Dor de Cabeça',
+      crm: '123456',
       medico: 'Augusto',
       instituicao: 'Hospital Regional de Ceilândia',
     },
     {
       id: 2,
       data: '22/10/2019 13:55',
-      cid: 'S34',
-      causa: 'Dor de Cabeça',
+      cid: 'S43',
+      crm: '654321',
       medico: 'Roger',
-      instituicao: 'Hospital Regional de Ceilândia',
-    },
-    {
-      id: 3,
-      data: '26/10/2019 11:55',
-      cid: 'S34',
-      causa: 'Dor de Cabeça',
-      medico: 'Augusto',
-      instituicao: 'Hospital Regional de Ceilândia',
-    },
-    {
-      id: 4,
-      data: '26/10/2019 11:55',
-      cid: 'S34',
-      causa: 'Dor de Cabeça',
-      medico: 'Augusto',
-      instituicao: 'Hospital Regional de Ceilândia',
-    },
-    {
-      id: 5,
-      data: '26/10/2019 11:55',
-      cid: 'S34',
-      causa: 'Dor de Cabeça',
-      medico: 'Augusto',
-      instituicao: 'Hospital Regional de Ceilândia',
+      instituicao: 'Hospital das Clínicas',
     },
   ],
 };
@@ -155,13 +131,13 @@ export default function List(props) {
             <Box
               data={item.data}
               cid={item.cid}
-              causa={item.causa}
+              crm={item.crm}
               medico={item.medico}
               instituicao={item.instituicao}
               click={() => handleToViewAtest(item)}
             />
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={item => item.id+''}
         />
       </Container>
       <BottomSheet

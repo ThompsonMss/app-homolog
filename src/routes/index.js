@@ -37,6 +37,9 @@ export default createAppContainer(
     },
     Detail: {
       screen: Detail,
+      navigationOptions: {
+        title: 'Detalhe do Atestado',
+      },
     },
   }),
 );
