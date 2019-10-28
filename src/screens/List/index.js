@@ -39,7 +39,7 @@ const listAtestados = {
       data: '22/10/2019 13:55',
       cid: 'S34',
       causa: 'Dor de Cabeça',
-      medico: 'Augusto',
+      medico: 'Roger',
       instituicao: 'Hospital Regional de Ceilândia',
     },
     {
@@ -137,6 +137,10 @@ export default function List(props) {
     </BottomSheetContent>
   );
 
+  function handleToViewAtest(item) {
+    props.navigation.navigate('Detail', {atestado: item});
+  }
+
   return (
     <>
       <Header
@@ -154,6 +158,7 @@ export default function List(props) {
               causa={item.causa}
               medico={item.medico}
               instituicao={item.instituicao}
+              click={() => handleToViewAtest(item)}
             />
           )}
           keyExtractor={item => item.id}

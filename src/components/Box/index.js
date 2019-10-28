@@ -9,7 +9,7 @@ export default function Box(props) {
       <Text>Causa Principal: {props.causa}</Text>
       <Text>Médico: Dr. {props.medico}</Text>
       <Text>Instituição: {props.instituicao}</Text>
-      <Button>
+      <Button onPress={props.click}>
         <TextButton>Visualizar Atestado</TextButton>
       </Button>
     </Container>
