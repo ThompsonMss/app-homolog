@@ -1,12 +1,17 @@
 const INITIAL_STATE = {
+  nome: '',
+  cpf: '',
+  telefone: '',
+  endereco: '',
   email: '',
-  name: '',
-  password: '',
+  id: null,
 };
 
 const UserReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case '@paciente/request_login':
+    case '@paciente/set':
+      return {...state, ...action.payload};
+    case '@paciente/get':
       return state;
     default:
       return state;

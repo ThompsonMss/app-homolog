@@ -12,8 +12,11 @@ import {
 } from './styles';
 
 import api from '../../services/api';
+import Spinner from '../../components/Spinner';
 
 export default function Register(props) {
+  const [indicator, setIndicator] = React.useState(false);
+
   const [language, setLanguage] = React.useState('Distrito Federal');
 
   //Inputs
@@ -74,6 +77,7 @@ export default function Register(props) {
       alert('Preencha todos os campos.');
     } else {
       try {
+        setIndicator(true);
         const response = await api.post('/pacientes/create', {
           nome,
           cpf,
@@ -82,6 +86,7 @@ export default function Register(props) {
           email,
           senha,
         });
+        setIndicator(false);
 
         if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
           Alert.alert('Falha', 'Email ou CPF já cadastrado', [
@@ -93,13 +98,22 @@ export default function Register(props) {
           ]);
         }
       } catch (error) {
+        setIndicator(false);
         alert(error);
       }
     }
   };
 
+  let spinner = {
+    colorBackground: 'rgba(0,0,0,0.4)',
+    color: '#fff',
+    text: 'Carregando',
+    textColor: '#FFF',
+  };
+
   return (
     <ScrollView>
+      {indicator === true && <Spinner {...spinner} />}
       <Container>
         <WrapperTextInput>
           <Text>Nome</Text>

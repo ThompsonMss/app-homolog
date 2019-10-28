@@ -138,7 +138,7 @@ export default function List(props) {
               click={() => handleToViewAtest(item)}
             />
           )}
-          keyExtractor={item => item.id+''}
+          keyExtractor={item => item.id + ''}
         />
       </Container>
       <BottomSheet
