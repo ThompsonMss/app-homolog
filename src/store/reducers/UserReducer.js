@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 const UserReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case '@user/request_login':
+    case '@paciente/request_login':
       return state;
     default:
       return state;
