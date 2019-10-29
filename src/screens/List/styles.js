@@ -29,9 +29,6 @@ export const TextFilter = styled.Text`
 
 export const FlatList = styled.FlatList`
   width: 100%;
-  padding-left: 10;
-  padding-right: 10;
-  padding-top: 10;
 `;
 
 export const BottomSheetContent = styled.View`

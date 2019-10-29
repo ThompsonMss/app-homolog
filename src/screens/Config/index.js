@@ -12,17 +12,19 @@ import {
   TextButton,
 } from './styles';
 
+import {connect} from 'react-redux';
+
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
 
 function Config(props) {
   const [language, setLanguage] = React.useState('Distrito Federal');
   //Inputs
-  const [nome, setNome] = React.useState('');
-  const [cpf, setCpf] = React.useState('');
-  const [email, setEmail] = React.useState('');
+  const [nome, setNome] = React.useState(props.paciente.nome);
+  const [cpf, setCpf] = React.useState(props.paciente.cpf);
+  const [email, setEmail] = React.useState(props.paciente.email);
   const [senha, setSenha] = React.useState('');
-  const [telefone, setTelefone] = React.useState('');
+  const [telefone, setTelefone] = React.useState(props.paciente.telefone);
   const [cidade, setCidade] = React.useState('');
   const [rua, setRua] = React.useState('');
   const [numero, setNumero] = React.useState('');
@@ -74,6 +76,8 @@ function Config(props) {
     }
   };
 
+  console.tron.log(props.paciente);
+
   return (
     <>
       <Header
@@ -115,6 +119,7 @@ function Config(props) {
           <WrapperTextInput>
             <Text>Senha</Text>
             <Input
+              placeholder="Insira nova senha"
               value={senha}
               onChangeText={e => setSenha(e)}
               secureTextEntry={true}
@@ -167,4 +172,8 @@ function Config(props) {
   );
 }
 
-export default Config;
+const mapStateToProps = state => ({
+  paciente: state.paciente,
+});
+
+export default connect(mapStateToProps)(Config);

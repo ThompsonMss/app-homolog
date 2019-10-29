@@ -1,4 +1,4 @@
-export const setPaciente = ({nome, cpf, telefone, endereco, id, email}) => {
+export const setPaciente = (nome, cpf, telefone, endereco, id, email) => {
   return {
     type: '@paciente/set',
     payload: {

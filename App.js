@@ -1,4 +1,7 @@
 import React from 'react';
+
+import './src/Config/ReactotronConfig';
+
 import Routes from './src/routes';
 
 import {Provider} from 'react-redux';

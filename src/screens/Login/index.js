@@ -25,8 +25,8 @@ import {setPaciente} from '../../store/actions/UserAction';
 
 function Login(props) {
   const [indicator, setIndicator] = React.useState(false);
-  const [email, setEmail] = React.useState('');
-  const [senha, setSenha] = React.useState('');
+  const [email, setEmail] = React.useState('teste@teste.com.br');
+  const [senha, setSenha] = React.useState('252525');
 
   let {height, width} = Dimensions.get('window');
 
@@ -43,7 +43,14 @@ function Login(props) {
         setIndicator(false);
 
         if (response.data != 'Login Incorreto') {
-          props.setPaciente(response.data);
+          props.setPaciente(
+            response.data.Nome,
+            response.data.CPF,
+            response.data.Telefone,
+            response.data.Endereco,
+            response.data.Usuario.id,
+            response.data.Usuario.email,
+          );
           props.navigation.navigate('Home');
         }
       } catch (error) {
