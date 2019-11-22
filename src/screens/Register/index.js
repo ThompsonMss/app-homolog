@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Alert} from 'react-native';
+import { Dimensions, Alert } from 'react-native';
 import {
   ScrollView,
   Container,
@@ -17,7 +17,7 @@ import Spinner from '../../components/Spinner';
 export default function Register(props) {
   const [indicator, setIndicator] = React.useState(false);
 
-  const [language, setLanguage] = React.useState('Distrito Federal');
+  const [uf, setUf] = React.useState('Distrito Federal');
 
   //Inputs
   const [nome, setNome] = React.useState('');
@@ -60,7 +60,7 @@ export default function Register(props) {
     'Tocatins',
   ];
 
-  let {height, width} = Dimensions.get('window');
+  let { height, width } = Dimensions.get('window');
 
   const salvarPaciente = async () => {
     if (
@@ -82,7 +82,11 @@ export default function Register(props) {
           nome,
           cpf,
           telefone,
-          endereco: `Estado: ${language}, Cidade: ${cidade}, Rua: ${rua}, Número: ${numero}, CEP: ${cep}`,
+          cep,
+          uf,
+          cidade,
+          rua,
+          numero,
           email,
           senha,
         });
@@ -90,11 +94,11 @@ export default function Register(props) {
 
         if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
           Alert.alert('Falha', 'Email ou CPF já cadastrado', [
-            {text: 'OK', onPress: () => null},
+            { text: 'OK', onPress: () => null },
           ]);
         } else {
           Alert.alert('Sucesso', 'Você foi cadastrado.', [
-            {text: 'OK', onPress: () => props.navigation.goBack()},
+            { text: 'OK', onPress: () => props.navigation.goBack() },
           ]);
         }
       } catch (error) {
@@ -156,8 +160,8 @@ export default function Register(props) {
         <WrapperTextInput>
           <Text>UF</Text>
           <Picker
-            selectedValue={language}
-            onValueChange={(itemValue, itemIndex) => setLanguage(itemValue)}>
+            selectedValue={uf}
+            onValueChange={(itemValue, itemIndex) => setUf(itemValue)}>
             {estados.map(estado => (
               <Picker.Item key={estado} label={estado} value={estado} />
             ))}
