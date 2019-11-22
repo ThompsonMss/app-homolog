@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 import {
   Container,
   FlatList,
@@ -15,8 +15,11 @@ import {
   TextSheetHeader,
 } from './styles';
 
+import api from '../../services/api';
+import { connect } from 'react-redux';
+
 import BottomSheet from 'reanimated-bottom-sheet';
-import {TextInputMask} from 'react-native-masked-text';
+import { TextInputMask } from 'react-native-masked-text';
 
 import Icon from 'react-native-vector-icons/Fontisto';
 
@@ -44,7 +47,23 @@ const listAtestados = {
   ],
 };
 
-export default function List(props) {
+function List(props) {
+
+
+  //Chamada API
+  /*const getAtest = async() => {
+    try {
+      let listAtestados = await api.post('/pacientes/atestados', {
+        cpf: props.paciente.cpf,
+      });
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  getAtest();
+  */
+
   const renderHeader = () => (
     /* render */
     <BottomSheetHeader>
@@ -55,7 +74,7 @@ export default function List(props) {
     </BottomSheetHeader>
   );
 
-  let {height, width} = Dimensions.get('window');
+  let { height, width } = Dimensions.get('window');
 
   const [dataDe, setDataDe] = React.useState('');
   const [dataAte, setDataAte] = React.useState('');
@@ -104,7 +123,7 @@ export default function List(props) {
         />
       </WrapperInput>
       <Button
-        onPress={() => props.navigation.navigate('Home')}
+        onPress={() => null}
         tamanho={width}
         activeOpacity={0.7}>
         <TextButton>Buscar</TextButton>
@@ -113,7 +132,7 @@ export default function List(props) {
   );
 
   function handleToViewAtest(item) {
-    props.navigation.navigate('Detail', {atestado: item});
+    props.navigation.navigate('Detail', { atestado: item });
   }
 
   return (
@@ -126,7 +145,7 @@ export default function List(props) {
       <Container>
         <FlatList
           data={listAtestados.atestados}
-          renderItem={({item}) => (
+          renderItem={({ item }) => (
             <Box
               id={item.id}
               data={item.data}
@@ -149,3 +168,9 @@ export default function List(props) {
     </>
   );
 }
+
+const mapStateToProps = state => ({
+  paciente: state.paciente,
+});
+
+export default connect(mapStateToProps)(List);

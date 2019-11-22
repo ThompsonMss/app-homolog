@@ -12,13 +12,13 @@ import {
   TextButton,
 } from './styles';
 
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
 
 function Config(props) {
-  const [language, setLanguage] = React.useState('Distrito Federal');
+  const [uf, setUf] = React.useState('Distrito Federal');
   //Inputs
   const [nome, setNome] = React.useState(props.paciente.nome);
   const [cpf, setCpf] = React.useState(props.paciente.cpf);
@@ -74,6 +74,38 @@ function Config(props) {
     ) {
       alert('Preencha todos os campos.');
     }
+    //Todo
+    /*
+      try {
+        setIndicator(true);
+        const response = await api.post('/pacientes/create', {
+          nome,
+          cpf,
+          telefone,
+          cep,
+          uf,
+          cidade,
+          rua,
+          numero,
+          email,
+          senha,
+        });
+        setIndicator(false);
+
+        if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
+          Alert.alert('Falha', 'Email ou CPF já cadastrado', [
+            { text: 'OK', onPress: () => null },
+          ]);
+        } else {
+          Alert.alert('Sucesso', 'Você foi cadastrado.', [
+            { text: 'OK', onPress: () => props.navigation.goBack() },
+          ]);
+        }
+      } catch (error) {
+        setIndicator(false);
+        alert(error);
+      }
+    */
   };
 
   console.tron.log(props.paciente);
@@ -128,8 +160,8 @@ function Config(props) {
           <WrapperTextInput>
             <Text>UF</Text>
             <Picker
-              selectedValue={language}
-              onValueChange={(itemValue, itemIndex) => setLanguage(itemValue)}>
+              selectedValue={uf}
+              onValueChange={(itemValue, itemIndex) => setUf(itemValue)}>
               {estados.map(estado => (
                 <Picker.Item key={estado} label={estado} value={estado} />
               ))}
