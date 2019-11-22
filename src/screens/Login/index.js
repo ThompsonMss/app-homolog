@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Alert} from 'react-native';
+import { Dimensions, Alert, AsyncStorage } from 'react-native';
 import {
   Container,
   WrapperForm,
@@ -20,15 +20,15 @@ import Icone from 'react-native-vector-icons/Fontisto';
 import Spinner from '../../components/Spinner';
 
 import api from '../../services/api';
-import {connect} from 'react-redux';
-import {setPaciente} from '../../store/actions/UserAction';
+import { connect } from 'react-redux';
+import { setPaciente } from '../../store/actions/UserAction';
 
 function Login(props) {
   const [indicator, setIndicator] = React.useState(false);
   const [email, setEmail] = React.useState('teste@teste.com.br');
   const [senha, setSenha] = React.useState('252525');
 
-  let {height, width} = Dimensions.get('window');
+  let { height, width } = Dimensions.get('window');
 
   const logar = async () => {
     if (email == '' || senha == '') {
@@ -47,16 +47,21 @@ function Login(props) {
             response.data.Nome,
             response.data.CPF,
             response.data.Telefone,
-            response.data.Endereco,
+            response.data.Cep,
+            response.data.UF,
+            response.data.Cidade,
+            response.data.Rua,
+            response.data.Numero,
             response.data.Usuario.id,
             response.data.Usuario.email,
           );
+
           props.navigation.navigate('Home');
         }
       } catch (error) {
         setIndicator(false);
         Alert.alert('Falha', 'Suas crendencias estão incorretas.', [
-          {text: 'OK', onPress: () => null},
+          { text: 'OK', onPress: () => null },
         ]);
       }
     }
