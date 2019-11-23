@@ -1,28 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Dimensions } from 'react-native';
+import { Dimensions, Alert } from 'react-native';
+
 import {
   Container,
   FlatList,
-  BottomSheetContent,
-  TextSheetContent,
-  TextIcon,
-  WrapperInput,
-  Button,
-  TextButton,
-  BottomSheetHeader,
-  SheetIndicator,
-  Indicator,
-  TextSheetHeader,
-  Text
+  Text,
+  ContentFilter,
+  TextFilter,
+  TextFilterInput,
+  ContentInput,
+  ContentUniqueInput,
+  ButtonFilter,
+  TextButton
 } from './styles';
 
 import api from '../../services/api';
 import { connect } from 'react-redux';
 
-import BottomSheet from 'reanimated-bottom-sheet';
-import { TextInputMask } from 'react-native-masked-text';
+import { invertingDate } from '../../utils/convertToDate';
 
-import Icon from 'react-native-vector-icons/Fontisto';
+import { TextInputMask } from 'react-native-masked-text';
 
 import Header from '../../components/Header';
 import Box from '../../components/Box';
@@ -33,14 +30,23 @@ import Initialized from '../../components/Initialized';
 function List(props) {
 
   const [initialized, setInitialized] = useState(true);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState('Listando todos os atestados');
 
   const [listAtestados, setListAtestados] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
 
+  let { height, width } = Dimensions.get('window');
+
+  const [dataDe, setDataDe] = React.useState('');
+  const [dataAte, setDataAte] = React.useState('');
+
   //Chamada API
   const getAtest = async () => {
+    setFilter('Listando todos os atestados');
     setInitialized(false);
+    setDataDe('');
+    setDataAte('');
+
     try {
       const dados = await api.post('/pacientes/atestados', {
         cpf: props.paciente.cpf,
@@ -54,81 +60,52 @@ function List(props) {
     }
   };
 
-  const handleFilter = () => {
-    filterAtestados = listAtestados.filter(() => {
-      const parseDateDe = dataDe;
-      const parseDateAte = dataAte;
-      console.tron.log('De: ', parseDateDe);
-      console.tron.log('Ate: ', parseDateAte);
-    });
+  const handleFilter = async () => {
+    if (dataDe == '' || dataAte == '') {
+      Alert.alert('Opa!', 'Por favor preencha os campos de data', [
+        { text: 'OK', onPress: () => null }
+      ]);
+    } else {
+      let dataini = new Date(invertingDate(dataDe)).getTime();
+      let dataate = new Date(invertingDate(dataAte)).getTime();
+      if (dataini > dataate) {
+        Alert.alert('Opa!', 'A data inicial não pode ser maior que a data final', [
+          { text: 'OK', onPress: () => null }
+        ]);
+      } else {
+        //Recarregando Lista
+        try {
+          const dados = await api.post('/pacientes/atestados', {
+            cpf: props.paciente.cpf,
+          });
+
+          setListAtestados(dados.data);
+        } catch (error) {
+          alert(error);
+        }
+
+        let filterAtestados = listAtestados.filter(atestados => {
+          let data = new Date(atestados.timestamp).getTime();
+          if (data >= dataini && data <= dataate) {
+            return atestados;
+          }
+        });
+
+        setListAtestados(filterAtestados);
+        setFilter(`Período de ${dataDe} até ${dataAte} - Recarregue a página para usar o filtro novamente. Basta puxar para baixo.`);
+      }
+    }
   }
 
-  const renderHeader = () => (
-    /* render */
-    <BottomSheetHeader>
-      <SheetIndicator>
-        <Indicator />
-      </SheetIndicator>
-      <TextSheetHeader>Filtrar por Data</TextSheetHeader>
-    </BottomSheetHeader>
-  );
-
-  let { height, width } = Dimensions.get('window');
-
-  const [dataDe, setDataDe] = React.useState('');
-  const [dataAte, setDataAte] = React.useState('');
-
   const stylesInputMask = {
-    height: 50,
-    width: '93%',
-    fontSize: 20,
+    height: 35,
+    flex: 1,
+    fontSize: 15,
     backgroundColor: '#fff',
     paddingLeft: 10,
+    paddingTop: 0,
+    paddingBottom: 0,
   };
-
-  const renderContent = () => (
-    /* render */
-    <BottomSheetContent>
-      <TextSheetContent>De:</TextSheetContent>
-      <WrapperInput tamanho={width}>
-        <TextIcon>
-          <Icon name="date" size={25} color="#000" />
-        </TextIcon>
-        <TextInputMask
-          type={'custom'}
-          options={{
-            mask: '99-99-9999',
-          }}
-          placeholder="25-10-2019"
-          value={dataDe}
-          onChangeText={text => setDataDe(text)}
-          style={stylesInputMask}
-        />
-      </WrapperInput>
-      <TextSheetContent>Até:</TextSheetContent>
-      <WrapperInput tamanho={width}>
-        <TextIcon>
-          <Icon name="date" size={25} color="#000" />
-        </TextIcon>
-        <TextInputMask
-          type={'custom'}
-          options={{
-            mask: '99-99-9999',
-          }}
-          placeholder="26-10-2019"
-          value={dataAte}
-          onChangeText={text => setDataAte(text)}
-          style={stylesInputMask}
-        />
-      </WrapperInput>
-      <Button
-        onPress={() => alert('Eu')}
-        tamanho={width}
-        activeOpacity={0.7}>
-        <TextButton>Buscar</TextButton>
-      </Button>
-    </BottomSheetContent>
-  );
 
   function handleToViewAtest(item) {
     props.navigation.navigate('Detail', { atestado: item });
@@ -161,6 +138,42 @@ function List(props) {
           textButton="Sair"
         />
         <Container>
+          <ContentFilter>
+            <TextFilter>Filtre por data</TextFilter>
+            <ContentInput>
+              <ContentUniqueInput left={0} right={5}>
+                <TextFilterInput>De:</TextFilterInput>
+                <TextInputMask
+                  keyboardType="numeric"
+                  type={'custom'}
+                  options={{
+                    mask: '99-99-9999',
+                  }}
+                  placeholder="26-10-2019"
+                  value={dataDe}
+                  onChangeText={text => setDataDe(text)}
+                  style={stylesInputMask}
+                />
+              </ContentUniqueInput>
+              <ContentUniqueInput left={5} right={5}>
+                <TextFilterInput>Até:</TextFilterInput>
+                <TextInputMask
+                  keyboardType="numeric"
+                  type={'custom'}
+                  options={{
+                    mask: '99-99-9999',
+                  }}
+                  placeholder="26-10-2019"
+                  value={dataAte}
+                  onChangeText={text => setDataAte(text)}
+                  style={stylesInputMask}
+                />
+              </ContentUniqueInput>
+            </ContentInput>
+            <ButtonFilter onPress={() => handleFilter()}>
+              <TextButton>Buscar</TextButton>
+            </ButtonFilter>
+          </ContentFilter>
           {filter != '' && <Text>{filter}</Text>}
           <FlatList
             ListEmptyComponent={() => (<EmptyList />)}
@@ -180,12 +193,6 @@ function List(props) {
             onRefresh={handleRefresh}
           />
         </Container>
-        <BottomSheet
-          snapPoints={[300, 60, 20]}
-          initialSnap={[2]}
-          renderContent={renderContent}
-          renderHeader={renderHeader}
-        />
       </>
     );
   }
