@@ -1,4 +1,6 @@
 import React from 'react';
+import { Alert } from 'react-native';
+
 import {
   ScrollView,
   Container,
@@ -13,8 +15,8 @@ import {
 } from './styles';
 
 import { connect } from 'react-redux';
+import api from '../../services/api';
 
-import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../components/Header';
 
 function Config(props) {
@@ -23,7 +25,6 @@ function Config(props) {
   const [nome, setNome] = React.useState(props.paciente.nome);
   const [cpf, setCpf] = React.useState(props.paciente.cpf);
   const [email, setEmail] = React.useState(props.paciente.email);
-  const [senha, setSenha] = React.useState('');
   const [telefone, setTelefone] = React.useState(props.paciente.telefone);
   const [cidade, setCidade] = React.useState(props.paciente.cidade);
   const [rua, setRua] = React.useState(props.paciente.rua);
@@ -65,43 +66,33 @@ function Config(props) {
       nome == '' ||
       cpf == '' ||
       email == '' ||
-      senha == '' ||
       telefone == '' ||
       cidade == '' ||
       rua == '' ||
       numero == '' ||
       cep == ''
     ) {
-      alert('Preencha todos os campos.');
-    }
-    try {
-      setIndicator(true);
-      const response = await api.put('/pacientes/update', {
-        nome,
-        cpf,
-        telefone,
-        cep,
-        uf,
-        cidade,
-        rua,
-        numero,
-        email,
-        senha,
-      });
-      setIndicator(false);
+      Alert.alert('Opa', 'Preencha todos os campos', [
+        { text: 'OK', onPress: () => null }
+      ]);
+    } else {
+      try {
+        const response = await api.put('/pacientes/update', {
+          id: props.paciente.id,
+          telefone,
+          cep,
+          uf,
+          cidade,
+          rua,
+          numero
+        });
 
-      if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
-        Alert.alert('Falha', 'Email ou CPF já cadastrado', [
-          { text: 'OK', onPress: () => null },
+        Alert.alert('Sucesso', 'Dados atualizados com sucesso!', [
+          { text: 'OK', onPress: () => null }
         ]);
-      } else {
-        Alert.alert('Sucesso', 'Você foi cadastrado.', [
-          { text: 'OK', onPress: () => props.navigation.goBack() },
-        ]);
+      } catch (error) {
+        alert(error);
       }
-    } catch (error) {
-      setIndicator(false);
-      alert(error);
     }
   };
 
@@ -144,15 +135,6 @@ function Config(props) {
             />
           </WrapperTextInput>
           <WrapperTextInput>
-            <Text>Senha</Text>
-            <Input
-              placeholder="Insira nova senha"
-              value={senha}
-              onChangeText={e => setSenha(e)}
-              secureTextEntry={true}
-            />
-          </WrapperTextInput>
-          <WrapperTextInput>
             <Text>UF</Text>
             <Picker
               selectedValue={uf}
@@ -186,11 +168,6 @@ function Config(props) {
           <WrapperButton>
             <Button onPress={salvar} activeOpacity={0.7} color="#000">
               <TextButton>Salvar</TextButton>
-            </Button>
-          </WrapperButton>
-          <WrapperButton>
-            <Button activeOpacity={0.7} color="red">
-              <TextButton>Excluir Conta</TextButton>
             </Button>
           </WrapperButton>
         </Container>

@@ -25,8 +25,8 @@ import { setPaciente } from '../../store/actions/UserAction';
 
 function Login(props) {
   const [indicator, setIndicator] = React.useState(false);
-  const [email, setEmail] = React.useState('ronaldo@ronaldo.com');
-  const [senha, setSenha] = React.useState('Ronaldo');
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
 
   let { height, width } = Dimensions.get('window');
 
