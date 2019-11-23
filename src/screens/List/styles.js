@@ -112,3 +112,10 @@ export const TextSheetHeader = styled.Text`
   font-size: 20;
   margin-bottom: 10;
 `;
+
+export const Text = styled.Text`
+  font-size: 14;
+  margin-bottom: 10;
+  color: #999;
+  text-align: left;
+`;

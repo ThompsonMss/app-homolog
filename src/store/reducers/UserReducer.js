@@ -2,7 +2,11 @@ const INITIAL_STATE = {
   nome: 'José',
   cpf: '',
   telefone: '',
-  endereco: '',
+  uf: '',
+  cidade: '',
+  rua: '',
+  numero: '',
+  cep: '',
   email: '',
   id: null,
 };
@@ -10,7 +14,7 @@ const INITIAL_STATE = {
 const UserReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case '@paciente/set':
-      return {...state, ...action.payload};
+      return { ...state, ...action.payload };
     case '@paciente/get':
       return state;
     default:

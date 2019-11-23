@@ -25,10 +25,10 @@ function Config(props) {
   const [email, setEmail] = React.useState(props.paciente.email);
   const [senha, setSenha] = React.useState('');
   const [telefone, setTelefone] = React.useState(props.paciente.telefone);
-  const [cidade, setCidade] = React.useState('');
-  const [rua, setRua] = React.useState('');
-  const [numero, setNumero] = React.useState('');
-  const [cep, setCep] = React.useState('');
+  const [cidade, setCidade] = React.useState(props.paciente.cidade);
+  const [rua, setRua] = React.useState(props.paciente.rua);
+  const [numero, setNumero] = React.useState(props.paciente.numero);
+  const [cep, setCep] = React.useState(props.paciente.cep);
 
   const estados = [
     'Acre',
@@ -60,7 +60,7 @@ function Config(props) {
     'Tocatins',
   ];
 
-  const salvar = () => {
+  const salvar = async () => {
     if (
       nome == '' ||
       cpf == '' ||
@@ -74,41 +74,36 @@ function Config(props) {
     ) {
       alert('Preencha todos os campos.');
     }
-    //Todo
-    /*
-      try {
-        setIndicator(true);
-        const response = await api.post('/pacientes/create', {
-          nome,
-          cpf,
-          telefone,
-          cep,
-          uf,
-          cidade,
-          rua,
-          numero,
-          email,
-          senha,
-        });
-        setIndicator(false);
+    try {
+      setIndicator(true);
+      const response = await api.put('/pacientes/update', {
+        nome,
+        cpf,
+        telefone,
+        cep,
+        uf,
+        cidade,
+        rua,
+        numero,
+        email,
+        senha,
+      });
+      setIndicator(false);
 
-        if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
-          Alert.alert('Falha', 'Email ou CPF já cadastrado', [
-            { text: 'OK', onPress: () => null },
-          ]);
-        } else {
-          Alert.alert('Sucesso', 'Você foi cadastrado.', [
-            { text: 'OK', onPress: () => props.navigation.goBack() },
-          ]);
-        }
-      } catch (error) {
-        setIndicator(false);
-        alert(error);
+      if (response.data == 'Erro - Email ja cadastrado - CRM ja cadastrado') {
+        Alert.alert('Falha', 'Email ou CPF já cadastrado', [
+          { text: 'OK', onPress: () => null },
+        ]);
+      } else {
+        Alert.alert('Sucesso', 'Você foi cadastrado.', [
+          { text: 'OK', onPress: () => props.navigation.goBack() },
+        ]);
       }
-    */
+    } catch (error) {
+      setIndicator(false);
+      alert(error);
+    }
   };
-
-  console.tron.log(props.paciente);
 
   return (
     <>

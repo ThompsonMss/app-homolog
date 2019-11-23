@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dimensions } from 'react-native';
 import {
   Container,
@@ -13,6 +13,7 @@ import {
   SheetIndicator,
   Indicator,
   TextSheetHeader,
+  Text
 } from './styles';
 
 import api from '../../services/api';
@@ -25,44 +26,42 @@ import Icon from 'react-native-vector-icons/Fontisto';
 
 import Header from '../../components/Header';
 import Box from '../../components/Box';
+import EmptyList from '../../components/EmptyList';
+import Initialized from '../../components/Initialized';
 
-const listAtestados = {
-  atestados: [
-    {
-      id: 1,
-      data: '26/10/2019 11:55',
-      cid: 'S34',
-      crm: '123456',
-      medico: 'Augusto',
-      instituicao: 'Hospital Regional de Ceilândia',
-    },
-    {
-      id: 2,
-      data: '22/10/2019 13:55',
-      cid: 'S43',
-      crm: '654321',
-      medico: 'Roger',
-      instituicao: 'Hospital das Clínicas',
-    },
-  ],
-};
 
 function List(props) {
 
+  const [initialized, setInitialized] = useState(true);
+  const [filter, setFilter] = useState('');
+
+  const [listAtestados, setListAtestados] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
 
   //Chamada API
-  /*const getAtest = async() => {
+  const getAtest = async () => {
+    setInitialized(false);
     try {
-      let listAtestados = await api.post('/pacientes/atestados', {
+      const dados = await api.post('/pacientes/atestados', {
         cpf: props.paciente.cpf,
       });
+
+      setListAtestados(dados.data);
+      setRefreshing(false);
     } catch (error) {
       alert(error);
+      setRefreshing(false);
     }
   };
 
-  getAtest();
-  */
+  const handleFilter = () => {
+    filterAtestados = listAtestados.filter(() => {
+      const parseDateDe = dataDe;
+      const parseDateAte = dataAte;
+      console.tron.log('De: ', parseDateDe);
+      console.tron.log('Ate: ', parseDateAte);
+    });
+  }
 
   const renderHeader = () => (
     /* render */
@@ -123,7 +122,7 @@ function List(props) {
         />
       </WrapperInput>
       <Button
-        onPress={() => null}
+        onPress={() => alert('Eu')}
         tamanho={width}
         activeOpacity={0.7}>
         <TextButton>Buscar</TextButton>
@@ -135,38 +134,62 @@ function List(props) {
     props.navigation.navigate('Detail', { atestado: item });
   }
 
-  return (
-    <>
-      <Header
-        click={() => props.navigation.navigate('Login')}
-        text="Atestados"
-        textButton="Sair"
-      />
-      <Container>
-        <FlatList
-          data={listAtestados.atestados}
-          renderItem={({ item }) => (
-            <Box
-              id={item.id}
-              data={item.data}
-              cid={item.cid}
-              crm={item.crm}
-              medico={item.medico}
-              instituicao={item.instituicao}
-              click={() => handleToViewAtest(item)}
-            />
-          )}
-          keyExtractor={item => item.id + ''}
+  const handleRefresh = () => {
+    setRefreshing(true);
+    getAtest();
+  }
+
+  if (initialized) {
+    return (
+      <>
+        <Header
+          click={() => props.navigation.navigate('Login')}
+          text="Atestados"
+          textButton="Sair"
         />
-      </Container>
-      <BottomSheet
-        snapPoints={[300, 60, 20]}
-        initialSnap={[2]}
-        renderContent={renderContent}
-        renderHeader={renderHeader}
-      />
-    </>
-  );
+        <Container>
+          <Initialized click={() => getAtest()} />
+        </Container>
+      </>
+    );
+  } else {
+    return (
+      <>
+        <Header
+          click={() => props.navigation.navigate('Login')}
+          text="Atestados"
+          textButton="Sair"
+        />
+        <Container>
+          {filter != '' && <Text>{filter}</Text>}
+          <FlatList
+            ListEmptyComponent={() => (<EmptyList />)}
+            data={listAtestados}
+            renderItem={({ item }) => (
+              <Box
+                id={item.id}
+                data={item.timestamp}
+                cid={item.cid}
+                crm={item.crm}
+                medico={item.nome}
+                click={() => handleToViewAtest(item)}
+              />
+            )}
+            keyExtractor={item => item.id + ''}
+            refreshing={refreshing}
+            onRefresh={handleRefresh}
+          />
+        </Container>
+        <BottomSheet
+          snapPoints={[300, 60, 20]}
+          initialSnap={[2]}
+          renderContent={renderContent}
+          renderHeader={renderHeader}
+        />
+      </>
+    );
+  }
+
 }
 
 const mapStateToProps = state => ({

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Container, Text, Button, TextButton} from './styles';
+import { Container, Text, Button, TextButton } from './styles';
 
 export default function Box(props) {
   return (
@@ -8,7 +8,6 @@ export default function Box(props) {
       <Text>CID: {props.cid}</Text>
       <Text>CRM: {props.crm}</Text>
       <Text>Médico: Dr. {props.medico}</Text>
-      <Text>Instituição: {props.instituicao}</Text>
       <Button onPress={props.click}>
         <TextButton>Visualizar Atestado</TextButton>
       </Button>
